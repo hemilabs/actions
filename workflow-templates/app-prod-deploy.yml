@@ -45,7 +45,7 @@ job:
     uses: hemilabs/actions/.github/workflows/docker.yml@main
     needs: [ "prepare" ]
     with:
-      version: "${{ github.sha }}"
+      version: "${{ needs.prepare.outputs.version }}"
       # context: "${{ github.workspace }}
       # platforms: "linux/amd64"
       # file: "${{ github.workspace }}/Dockerfile"
