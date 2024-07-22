@@ -1,0 +1,92 @@
+name: "Docker"
+on:
+  workflow_call:
+    inputs:
+      version:
+        description: "Application version (e.g. v1.0.0)"
+        type: string
+        required: true
+      context:
+        description: "Docker build context"
+        type: string
+        default: "${{ github.workspace }}"
+      platforms:
+        description: "Platforms to build image for (newline/comma separated)"
+        type: string
+        default: "linux/amd64"
+      file:
+        description: "Dockerfile to build"
+        type: string
+        default: "${{ github.workspace }}/Dockerfile"
+      tags:
+        description: "Docker image tags (newline/comma separated)"
+        type: string
+        required: true
+      build-args:
+        description: "Additional Docker build args (built-in: VERSION, VCS_REF, BUILD_DATE)"
+        type: string
+        default: ""
+      prebuild:
+        description: "Commands to execute before building Docker image"
+        type: string
+    secrets:
+      DOCKERHUB_USERNAME:
+        description: "Docker Hub username"
+        required: false
+      DOCKERHUB_PASSWORD:
+        description: "Docker Hub authentication token"
+        required: false
+
+jobs:
+  docker:
+    name: "Build and push"
+    runs-on: "ubuntu-latest"
+    permissions:
+      contents: read
+      packages: write # Needed to push to GitHub Container Registry
+    steps:
+      - name: "Checkout repository"
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+
+      - name: "Setup QEMU"
+        uses: docker/setup-qemu-action@v3
+
+      - name: "Setup Docker Buildx"
+        uses: docker/setup-buildx-action@v3
+
+      - name: "Login to DockerHub"
+        if: secrets.DOCKERHUB_USERNAME != ''
+        uses: docker/login-action@v3
+        with:
+          username: "${{ secrets.DOCKERHUB_USERNAME }}"
+          password: "${{ secrets.DOCKERHUB_TOKEN }}"
+
+      - name: "Login to GitHub Container Registry"
+        uses: docker/login-action@v3
+        with:
+          registry: "ghcr.io"
+          username: "${{ github.repository_owner }}"
+          password: "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: "Prepare to build"
+        id: "prepare"
+        run: |
+          echo "build_date=$(date -u +'%Y-%m-%dT%H:%M:%SZ')" >> "$GITHUB_OUTPUT"
+
+      - name: "Pre-build"
+        if: inputs.prebuild != ''
+        run: "${{ inputs.prebuild }}"
+
+      - name: "Build and push"
+        uses: docker/build-push-action@v6
+        with:
+          context: "${{ inputs.context }}"
+          platforms: "${{ inputs.platforms }}"
+          file: "${{ inputs.file }}"
+          push: true
+          build-args: |
+            VERSION=${{ inputs.version }}
+            VCS_REF=${{ github.sha }}
+            BUILD_DATE=${{ steps.prepare.outputs.build_date }}
+            ${{ inputs.build-args }}
+          tags: "${{ inputs.tags }}"
