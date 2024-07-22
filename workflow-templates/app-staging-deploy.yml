@@ -29,13 +29,12 @@ job:
     name: "Deploy to staging"
     uses: hemilabs/actions/.github/workflows/deploy-kustomize.yml@main
     needs: [ "docker" ]
-    environment:
-      name: "staging"
-      url: "https://app.letshamsterdance.xyz/" # TODO: Use correct URL
     with:
       namespace: "app" # TODO: Use correct namespace
       kustomize: "${{ github.workspace }}/kubernetes/kustomize/overlays/staging/" # TODO: Use correct kustomize path
       image: "hemilabs/app:${{ github.sha }}" # TODO: Change image name
+      environment-name: "prod"
+      environment-url: "https://app.letshamsterdance.xyz/" # TODO: Use correct URL
     secrets:
       KUBECONFIG: "${{ secrets.STAGING_KUBECONFIG }}"
       KUBECONFIG_CONTEXT: "${{ secrets.STAGING_KUBECONFIG_CONTEXT }}"

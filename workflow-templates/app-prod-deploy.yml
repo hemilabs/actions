@@ -63,13 +63,12 @@ job:
     name: "Deploy to prod"
     uses: hemilabs/actions/.github/workflows/deploy-kustomize.yml@main
     needs: [ "prepare", "docker" ]
-    environment:
-      name: "prod"
-      url: "https://app.hemi.xyz/" # TODO: Use correct URL
     with:
       namespace: "app" # TODO: Use correct namespace
       kustomize: "${{ github.workspace }}/kubernetes/kustomize/overlays/prod/" # TODO: Use correct kustomize path
       image: "hemilabs/app:${{ needs.prepare.outputs.tag }}" # TODO: Change image name
+      environment-name: "prod"
+      environment-url: "https://app.hemi.xyz/" # TODO: Use correct URL
     secrets:
       KUBECONFIG: "${{ secrets.PROD_KUBECONFIG }}"
       KUBECONFIG_CONTEXT: "${{ secrets.PROD_KUBECONFIG_CONTEXT }}"
