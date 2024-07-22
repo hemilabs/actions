@@ -14,6 +14,12 @@ on:
         description: "Docker image to deploy (changed with 'kustomize set image')"
         type: string
         required: true
+      environment-name:
+        description: "GitHub Deployment environment name"
+        type: string
+      environment-url:
+        description: "GitHub Deployment environment URL"
+        type: string
     secrets:
       KUBECONFIG:
         description: "Kubeconfig file contents"
@@ -28,6 +34,9 @@ jobs:
     runs-on: "ubuntu-latest"
     permissions:
       contents: read
+    environment:
+      name: "${{ inputs.environment-name }}"
+      url: "${{ inputs.environment-url }}"
     steps:
       - name: "Checkout repository"
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
