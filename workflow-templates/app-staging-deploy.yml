@@ -14,21 +14,30 @@ job:
   docker:
     name: "Docker"
     uses: hemilabs/actions/.github/workflows/docker.yml@main
+    permissions:
+      contents: read
+      packages: write # Needed to push to the GitHub Container Registry
     with:
       version: "${{ github.sha }}"
       # context: "${{ github.workspace }}
       # platforms: "linux/amd64"
       # file: "${{ github.workspace }}/Dockerfile"
       # prebuild-commands: "echo 'hello world'"
+      dockerhub: true
       tags: | # TODO: Change image names
         hemilabs/app:${{ github.sha }}
         ghcr.io/hemilabs/app:${{ github.sha }}
+    secrets:
+      DOCKERHUB_USERNAME: "${{ secrets.DOCKERHUB_USERNAME }}"
+      DOCKERHUB_PASSWORD: "${{ secrets.DOCKERHUB_PASSWORD }}"
 
   # Deploy to Kubernetes cluster
   deploy:
     name: "Deploy to staging"
     uses: hemilabs/actions/.github/workflows/deploy-kustomize.yml@main
     needs: [ "docker" ]
+    permissions:
+      contents: read
     with:
       namespace: "app" # TODO: Use correct namespace
       kustomize: "${{ github.workspace }}/kubernetes/kustomize/overlays/staging/" # TODO: Use correct kustomize path

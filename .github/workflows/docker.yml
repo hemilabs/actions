@@ -29,6 +29,10 @@ on:
       prebuild:
         description: "Commands to execute before building Docker image"
         type: string
+      dockerhub:
+        description: "Push to Docker Hub (requires secrets to be set)"
+        type: boolean
+        default: false
     secrets:
       DOCKERHUB_USERNAME:
         description: "Docker Hub username"
@@ -55,7 +59,7 @@ jobs:
         uses: docker/setup-buildx-action@aa33708b10e362ff993539393ff100fa93ed6a27 # v3.5.0
 
       - name: "Login to DockerHub"
-        if: secrets.DOCKERHUB_USERNAME != ''
+        if: inputs.dockerhub
         uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567 # v3.3.0
         with:
           username: "${{ secrets.DOCKERHUB_USERNAME }}"

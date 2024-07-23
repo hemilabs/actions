@@ -44,12 +44,16 @@ job:
     name: "Docker"
     uses: hemilabs/actions/.github/workflows/docker.yml@main
     needs: [ "prepare" ]
+    permissions:
+      contents: read
+      packages: write # Needed to push to the GitHub Container Registry
     with:
       version: "${{ needs.prepare.outputs.version }}"
       # context: "${{ github.workspace }}
       # platforms: "linux/amd64"
       # file: "${{ github.workspace }}/Dockerfile"
       # prebuild-commands: "echo 'hello world'"
+      dockerhub: true
       tags: | # TODO: Change image names
         hemilabs/app:latest
         hemilabs/app:${{ needs.prepare.outputs.tag }}
@@ -57,12 +61,17 @@ job:
         ghcr.io/hemilabs/app:latest
         ghcr.io/hemilabs/app:${{ needs.prepare.outputs.tag }}
         ghcr.io/hemilabs/app:${{ github.sha }}
+    secrets:
+      DOCKERHUB_USERNAME: "${{ secrets.DOCKERHUB_USERNAME }}"
+      DOCKERHUB_PASSWORD: "${{ secrets.DOCKERHUB_PASSWORD }}"
 
   # Deploy to Kubernetes cluster
   deploy:
     name: "Deploy to prod"
     uses: hemilabs/actions/.github/workflows/deploy-kustomize.yml@main
     needs: [ "prepare", "docker" ]
+    permissions:
+      contents: read
     with:
       namespace: "app" # TODO: Use correct namespace
       kustomize: "${{ github.workspace }}/kubernetes/kustomize/overlays/prod/" # TODO: Use correct kustomize path
