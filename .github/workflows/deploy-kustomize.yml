@@ -1,0 +1,63 @@
+name: "Deploy"
+on:
+  workflow_call:
+    inputs:
+      namespace:
+        description: "Kubernetes namespace (changed with 'kustomize set namespace')"
+        type: string
+        required: true
+      kustomize:
+        description: "Kustomize directory to apply"
+        type: string
+        required: true
+      image:
+        description: "Docker image to deploy (changed with 'kustomize set image')"
+        type: string
+        required: true
+      environment-name:
+        description: "GitHub Deployment environment name"
+        type: string
+      environment-url:
+        description: "GitHub Deployment environment URL"
+        type: string
+    secrets:
+      KUBECONFIG:
+        description: "Kubeconfig file contents"
+        required: true
+      KUBECONFIG_CONTEXT:
+        description: "The name of the kubectl context to use"
+        required: true
+
+jobs:
+  deploy:
+    name: "Deploy"
+    runs-on: "ubuntu-latest"
+    permissions:
+      contents: read
+    environment:
+      name: "${{ inputs.environment-name }}"
+      url: "${{ inputs.environment-url }}"
+    steps:
+      - name: "Checkout repository"
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+
+      - name: "Install kubectl"
+        uses: azure/k8s-set-context@27bfb387305b8f0ab5495d692e4a3304db7d0669 # v4.0.0
+        with:
+          method: "kubeconfig"
+          kubeconfig: "${{ secrets.KUBECONFIG }}"
+          context: "${{ secrets.KUBECONFIG_CONTEXT }}"
+
+      - name: "Install Kustomize"
+        uses: imranismail/setup-kustomize@2ba527d4d055ab63514ba50a99456fc35684947f # v2.1.0
+
+      - name: "Apply Kubernetes manifests"
+        working-directory: "${{ inputs.kustomize }}"
+        env:
+          NAMESPACE: "${{ inputs.namespace }}"
+          IMAGE: "${{ inputs.image }}"
+        run: |
+          kustomize edit set namespace "$NAMESPACE"
+          kustomize edit set image "$IMAGE"
+          kustomize build .
+          kubectl apply -k .
