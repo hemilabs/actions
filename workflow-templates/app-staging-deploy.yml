@@ -3,7 +3,7 @@
 name: "Staging"
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
 
 concurrency:
   group: "staging-deploy-${{ github.event.number || github.ref }}"
@@ -35,7 +35,7 @@ job:
   deploy:
     name: "Deploy to staging"
     uses: hemilabs/actions/.github/workflows/deploy-kustomize.yml@main
-    needs: [ "docker" ]
+    needs: ["docker"]
     permissions:
       contents: read
     with:

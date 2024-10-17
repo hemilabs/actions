@@ -1,0 +1,35 @@
+name: JS Checks
+
+on:
+  workflow_call:
+    inputs:
+      node-versions:
+        description: Array of Node versions to test with (JSON string)
+        default: "['']"
+        type: string
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}
+  cancel-in-progress: true
+
+jobs:
+  run-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hemilabs/actions/setup-node-env@main
+      - run: npm run --if-present format:check
+      - run: npm run --if-present lint
+      - run: npm run --if-present --include-workspace-root --workspaces deps:check
+      - run: npm run --if-present --include-workspace-root --workspaces build
+  run-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hemilabs/actions/setup-node-env@main
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm run --if-present --include-workspace-root --workspaces test
+    strategy:
+      matrix:
+        node-version: ${{ fromJSON(inputs.node-versions) }}
