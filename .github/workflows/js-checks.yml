@@ -8,10 +8,6 @@ on:
         default: "['']"
         type: string
 
-concurrency:
-  group: js-checks-${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}
-  cancel-in-progress: true
-
 jobs:
   run-checks:
     runs-on: ubuntu-latest
