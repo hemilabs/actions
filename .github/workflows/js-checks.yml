@@ -19,6 +19,8 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: hemilabs/actions/setup-node-env@main
       - run: npm run --if-present format:check
       - run: npm run --if-present lint
@@ -30,6 +32,8 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@v4
+        with:
+            fetch-depth: 0
       - uses: hemilabs/actions/setup-node-env@main
         with:
           node-version: ${{ matrix.node-version }}
