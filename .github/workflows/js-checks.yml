@@ -7,6 +7,10 @@ name: JS Checks
 on:
   workflow_call:
     inputs:
+      fetch-depth:
+        description: Number of commits to fetch. 0 indicates all history for all branches and tags.
+        default: 1
+        type: number
       node-versions:
         description: Array of Node versions to test with (JSON string)
         default: "['']"
@@ -19,6 +23,8 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: ${{ inputs.fetch-depth }}
       - uses: hemilabs/actions/setup-node-env@main
       - run: npm run --if-present format:check
       - run: npm run --if-present lint
@@ -30,6 +36,8 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: ${{ inputs.fetch-depth }}
       - uses: hemilabs/actions/setup-node-env@main
         with:
           node-version: ${{ matrix.node-version }}
