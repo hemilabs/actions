@@ -1,0 +1,24 @@
+name: Publish to NPM
+
+author: Gabriel Montes
+
+description: Sets up Node, runs the prepublishOnly script and publishes the package to the NPM registry
+
+inputs:
+  token:
+    description: The NPM access token to use when publishing
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - uses: hemilabs/actions/setup-node-env@main
+    - run: npm run --if-present prepublishOnly
+      shell: bash
+    - uses: JS-DevTools/npm-publish@v3
+      with:
+        token: ${{ inputs.token }}
+
+branding:
+  color: blue
+  icon: package
