@@ -20,6 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      id-token: write
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
@@ -28,4 +29,5 @@ jobs:
       - run: npm run --if-present prepublishOnly
       - uses: JS-DevTools/npm-publish@9ff4ebfbe48473265867fb9608c047e7995edfa3 # v3.1.1
         with:
+          provenance: true
           token: ${{ secrets.NPM_TOKEN }}
