@@ -27,6 +27,9 @@ on:
       preapply:
         description: "Commands to execute before applying"
         type: string
+      postapply:
+        description: "Commands to execute after applying"
+        type: string
     secrets:
       KUBECONFIG:
         description: "Kubeconfig file contents"
@@ -75,3 +78,8 @@ jobs:
           done
           kustomize build .
           kubectl apply -k .
+
+      - name: "Post-apply"
+        if: inputs.postapply != ''
+        working-directory: "${{ inputs.kustomize }}"
+        run: "${{ inputs.postapply }}"
