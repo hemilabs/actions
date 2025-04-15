@@ -1,0 +1,14 @@
+{
+  "name": "@hemilabs/actions",
+  "description": "Contains reusable GitHub Actions and GitHub Actions workflows for the [Hemi Labs](https://github.com/hemilabs)'s repositories.",
+  "version": "1.0.0",
+  "scripts": {
+    "lint": "prettier --check .",
+    "format": "prettier --write ."
+  },
+  "author": "Hemi Labs, Inc.",
+  "license": "MIT",
+  "devDependencies": {
+    "prettier": "3.5.3"
+  }
+}
