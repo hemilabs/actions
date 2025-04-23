@@ -4,8 +4,9 @@
 # and help automate review requests.
 #
 # Each team should be responsible for maintaining the workflows or actions they
-# contribute to this repository. When adding files, please add your team as a
-# code owner, unless otherwise decided.
+# contribute to this repository. When contributing workflows or actions, add
+# your team as a code owner, unless agreed upon. This helps ensure appropriate
+# review coverage and accountability.
 #
 # Additionally, for security purposes, all changes require a sign-off from a
 # member of the @hemilabs/devops or @hemilabs/secops teams.
