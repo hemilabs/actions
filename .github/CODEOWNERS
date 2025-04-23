@@ -1,7 +1,24 @@
+#
 # This file exists to designate certain reviewers for certain areas of the
 # repository. This allows us to enhance security measures, streamline reviews
 # and help automate review requests.
+#
+# Each team should be responsible for maintaining the workflows or actions they
+# contribute to this repository. When adding files, please add your team as a
+# code owner, unless otherwise decided.
+#
+# Additionally, for security purposes, all changes require a sign-off from a
+# member of the @hemilabs/devops or @hemilabs/secops teams.
+#
 
 # This is the default owner for all files in this repository.
-# Core Engineering and Joshua Sing are responsible for all files in this repository.
-* @hemilabs/dev @joshuasing
+* @hemilabs/devops
+
+# Documentation
+/docs/guidelines.md  @hemilabs/app-devs @hemilabs/dev @hemilabs/devops
+/docs/security.md    @hemilabs/secops
+
+# Application Engineering
+/.github/workflows/js-checks.yml    @hemilabs/app-devs
+/.github/workflows/npm-publish.yml  @hemilabs/app-devs
+/setup-node-env/                    @hemilabs/app-devs
