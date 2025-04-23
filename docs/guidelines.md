@@ -23,8 +23,7 @@ and workflows.
 ### 1.1. Versioning
 
 The `hemilabs/actions` repository uses tagged releases, following Semantic Versioning. Consumers of actions or workflows
-from `hemilabs/actions` should pin the action/workflows to a `vX.X` or `vX.X.X` tag to avoid unexpected or unreviewed
-changes.
+from `hemilabs/actions` should pin the action/workflows to a `vX.X` or `vX.X.X` tag to avoid unexpected or unreviewed changes.
 
 When breaking changes may need to be made to a certain action or workflow, an appropriate version bump must be made to
 avoid disrupting existing consumers.
