@@ -4,8 +4,8 @@
 
 This document outlines a shared set of guidelines for creating and maintaining GitHub Actions files for Hemi Labs.
 
-*These guidelines are currently a work-in-progress proposal and need review and agreement from all engineering teams at
-Hemi Labs.*
+_These guidelines are currently a work-in-progress proposal and need review and agreement from all engineering teams at
+Hemi Labs._
 
 ---
 
@@ -141,23 +141,23 @@ Step keys should be ordered as:
 Ordering keys consistently improves readability and reduces unnecessary diffs during reviews.
 
 ```yaml
-    - name: "Checkout repository"
-      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      with:
-        path: "./example/"
+- name: "Checkout repository"
+  uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+  with:
+    path: "./example/"
 
-    - name: "Read version"
-      id: version
-      run: |
-        VERSION=$(cat version)
-        echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+- name: "Read version"
+  id: version
+  run: |
+    VERSION=$(cat version)
+    echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 
-    - name: "Install dependencies"
-      working-directory: "example/"
-      env:
-        GO_VERSION: "1.24.x"
-        TEST_VERSION: "${{ steps.version.outputs.version }}"
-      run: make deps
+- name: "Install dependencies"
+  working-directory: "example/"
+  env:
+    GO_VERSION: "1.24.x"
+    TEST_VERSION: "${{ steps.version.outputs.version }}"
+  run: make deps
 ```
 
 ## 5. Actions
