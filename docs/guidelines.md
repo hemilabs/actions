@@ -2,9 +2,6 @@
 
 This document outlines a shared set of guidelines for creating and maintaining GitHub Actions files for Hemi Labs.
 
-_These guidelines are currently a work-in-progress proposal and need review and agreement from all engineering teams at
-Hemi Labs._
-
 ---
 
 ## 1. Reusable actions and workflows
