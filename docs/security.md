@@ -87,8 +87,9 @@ permissions:
   all JavaScript dependencies should be pinned to avoid unexpected and unreviewed changes.
 
 - **Use minimal and pinned Docker images** - If using Docker-based actions:
-  - Use minimal, actively maintained Docker image based on a trusted and well-known base (e.g. `scratch`, `alpine` or
-    `debian:slim`) to reduce the surface area and potential vulnerabilities.
+  - Use minimal, trusted and actively maintained Docker images based on `scratch` or `alpine` to reduce the surface area
+    and potential vulnerabilities. If it is not possible to use an image based on `scratch` or `alpine`, please clearly
+    document the reason why (e.g., compatibility, lack of `alpine`-based image).
   - Pin Docker images by `sha256` digest rather than tags to ensure immutability and unexpected changes.
 
 ```Dockerfile
@@ -112,7 +113,7 @@ FROM alpine:3.21.3@sha256:a8560b36e8b8210634f77d9f7f9efd7ffa463e380b75e2e74aff45
 ```yaml
 on:
   push:
-    branches: ["main"]
+    branches: [ "main" ]
 ```
 
 - **Restrict sensitive workflow runs** - Restrict sensitive workflows, especially deployment workflows, to only trusted
