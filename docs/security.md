@@ -93,7 +93,7 @@ permissions:
 - **Pin dependencies** - For composite actions, all third-party actions **must be pinned to commit hashes**. Similarly,
   all JavaScript dependencies should be pinned to avoid unexpected and unreviewed changes.
 
-- **Use minimal and pinned DOcker images** - If using Docker-based actions:
+- **Use minimal and pinned Docker images** - If using Docker-based actions:
   - Use minimal, actively maintained Docker image based on a trusted and well-known base (e.g. `scratch`, `alpine` or
     `debian:slim`) to reduce the surface area and potential vulnerabilities.
   - Pin Docker images by `sha256` digest rather than tags to ensure immutability and unexpected changes.
