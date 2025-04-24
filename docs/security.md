@@ -28,9 +28,6 @@ These guidelines outline security best practices for GitHub Actions workflows an
   secrets if specific jobs do not require them. Repository-level secrets or environment secrets can be created to
   further limit access to the secrets, which can then have a lower scope.
 
-- **Rotate secrets regularly** - Secrets should be rotated periodically to reduce their lifetime and the potential risk
-  of a compromised secret being used.
-
 - **Mask secrets** - Ensure secrets are never logged or exposed during workflow executions. GitHub automatically masks
   secrets, however they should still never be printed or written to files.
 
