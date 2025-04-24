@@ -168,8 +168,9 @@ run: |
 
 ## 4. Reporting issues
 
-If you notice a potential security issue in an action or workflow, raise it immediately with your team lead or via
-internal security channels. Quick detection and response help us protect from potential attacks.
+If you notice a potential security issue in an action or workflow, raise it immediately with your team lead, via
+internal security channels or by emailing [`security@hemi.xyz`](mailto:security@hemi.xyz). Quick detection and response
+help us protect from potential attacks.
 
 ## 5. Collaboration
 
