@@ -1,9 +1,5 @@
 # Actions Security Guidelines
 
-> Last updated: **April 24th, 2025**
-
-## Purpose
-
 These guidelines outline security best practices for GitHub Actions workflows and actions used by Hemi Labs.
 
 ---
