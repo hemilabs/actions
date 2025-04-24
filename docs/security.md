@@ -178,4 +178,4 @@ help us protect from potential attacks.
   point-of-contact, to ensure workflows and actions comply with security best practices.
 
 - **Feedback and improvements** - Continuous improvement of our security practices is crucial. If you have feedback or
-  suggestions for these guidelines, please feel free to create an issue or start a discussion internally.
+  suggestions for these guidelines, please feel free to create an issue or start a discussion.
