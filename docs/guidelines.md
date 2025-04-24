@@ -195,4 +195,4 @@ To encourage clarity and consistency across all actions and workflows:
 These guidelines are intended to support consistency and maintainability across teams. Feedback is welcome, and
 improvements to these guidelines are always encouraged.
 
-To suggest changes to these guidelines, feel free to open an issue, pull request, or send a message in Slack.
+To suggest changes to these guidelines, feel free to open an issue, pull request, or start a discussion.
