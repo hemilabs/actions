@@ -8,7 +8,7 @@ repositories.
 - `docker-build-push`: Build and push Docker images to Docker Hub.
 - `notify-deploy-to-slack`: Sends a notification to Slack using a pre-configured webhook.
 - `publish-to-npm`: Sets up Node, runs the prepublishOnly script and publishes the package to the NPM registry.
-- `setup-node-env`: Setups up Node, restores NPM cache and installs dependencies.
+- `setup-node-env`: Sets up Node, restores NPM cache and installs dependencies.
 
 ## Reusable workflows
 
