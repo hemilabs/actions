@@ -1,0 +1,33 @@
+# Copyright (c) 2024 Hemi Labs, Inc.
+# Use of this source code is governed by the MIT License,
+# which can be found in the LICENSE file.
+
+name: Publish to NPM
+
+author: Gabriel Montes
+
+description: Sets up Node, runs the prepublishOnly script and publishes the package to the NPM registry
+
+inputs:
+  token:
+    description: The NPM access token to use when publishing
+    required: true
+  provenance:
+    description: Attach provenance statements when publishing
+    required: false
+    default: "false"
+
+runs:
+  using: composite
+  steps:
+    - uses: hemilabs/actions/setup-node-env@v1
+    - run: npm run --if-present prepublishOnly
+      shell: bash
+    - uses: JS-DevTools/npm-publish@v3
+      with:
+        provenance: ${{ inputs.provenance }}
+        token: ${{ inputs.token }}
+
+branding:
+  color: blue
+  icon: package

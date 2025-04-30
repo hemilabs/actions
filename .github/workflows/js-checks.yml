@@ -7,39 +7,46 @@ name: JS Checks
 on:
   workflow_call:
     inputs:
+      cache:
+        description: "Used to specify a package manager for caching in the default directory. Supported values: npm, yarn, pnpm."
+        default: npm
+        type: string
       fetch-depth:
         description: Number of commits to fetch. 0 indicates all history for all branches and tags.
         default: 1
         type: number
       node-versions:
-        description: Array of Node versions to test with (JSON string)
+        description: Array of Node versions to test with as a JSON string. Default to use the version in the .nvmrc file.
         default: "['']"
         type: string
 
 jobs:
   run-checks:
-    runs-on: ubuntu-latest
     permissions:
       contents: read
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/checkout@v4
         with:
           fetch-depth: ${{ inputs.fetch-depth }}
-      - uses: hemilabs/actions/setup-node-env@main
+      - uses: hemilabs/actions/setup-node-env@v1
+        with:
+          cache: ${{ inputs.cache }}
       - run: npm run --if-present format:check
       - run: npm run --if-present lint
       - run: npm run --if-present --include-workspace-root --workspaces deps:check
       - run: npm run --if-present --include-workspace-root --workspaces build
   run-tests:
-    runs-on: ubuntu-latest
     permissions:
       contents: read
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/checkout@v4
         with:
           fetch-depth: ${{ inputs.fetch-depth }}
-      - uses: hemilabs/actions/setup-node-env@main
+      - uses: hemilabs/actions/setup-node-env@v1
         with:
+          cache: ${{ inputs.cache }}
           node-version: ${{ matrix.node-version }}
       - run: npm run --if-present --include-workspace-root --workspaces test
     strategy:
