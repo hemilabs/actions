@@ -23,7 +23,7 @@ runs:
     - uses: hemilabs/actions/setup-node-env@v1
     - run: npm run --if-present prepublishOnly
       shell: bash
-    - uses: JS-DevTools/npm-publish@v3
+    - uses: JS-DevTools/npm-publish@19c28f1ef146469e409470805ea4279d47c3d35c # v3.1.1 (not audited by us)
       with:
         provenance: ${{ inputs.provenance }}
         token: ${{ inputs.token }}
