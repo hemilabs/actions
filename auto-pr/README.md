@@ -12,7 +12,7 @@ This composite GitHub Action checks if the current branch is part of an allowed 
 
 | Input Name        | Description                                                   | Required | Example                        |
 |-------------------|---------------------------------------------------------------|----------|---------------------------------|
-| `allowed-branches`| Space-separated list of allowed branch names                  | ✅        | `subgraph-api token-princes`   |
+| `allowed-branches`| Space-separated list of allowed branch names                  | ✅        | `api-staging cronjob-staging`  |
 | `pr-base-branch`  | The base branch to merge into                                 | ✅        | `main`                         |
 | `pr-title`        | Title of the Pull Request                                     | ✅        | `Automated PR: Update main`    |
 | `pr-body`         | Body content of the Pull Request                              | ✅        | `This is an automated PR.`     |
