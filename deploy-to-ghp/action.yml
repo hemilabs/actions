@@ -5,9 +5,9 @@ author: Gabriel Montes
 description: Deploy a directory to GitHub Pages
 
 inputs:
-  build-with-npm:
-    description: Run NPM build script before deploying
-    default: "true"
+  artifact-name:
+    description: Base name for the artifact
+    default: github-pages
   publish-dir:
     description: Directory to publish
     default: public
@@ -20,17 +20,15 @@ outputs:
 runs:
   using: composite
   steps:
-    - if: ${{ inputs.build-with-npm == 'true' }}
-      uses: hemilabs/actions/setup-node-env@v1
-    - run: npm run --if-present build
-      shell: sh
-      if: ${{ inputs.build-with-npm == 'true' }}
     - uses: actions/configure-pages@v5
     - uses: actions/upload-pages-artifact@v3
       with:
+        name: ${{ inputs.artifact-name }}-${{ github.run_id }}
         path: ${{ inputs.publish-dir }}
     - id: deployment
       uses: actions/deploy-pages@v4
+      with:
+        artifact_name: ${{ inputs.artifact-name }}-${{ github.run_id }}
 
 branding:
   color: orange
