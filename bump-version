@@ -1,0 +1,46 @@
+#!/bin/sh
+
+set -e
+
+# Get the version part to bump from the command line
+if [ -z "$1" ]; then
+  echo "Use: ./bump-version <major, minor, patch>"
+  exit 1
+fi
+PART=$1
+
+# Get the current version parts from the latest tag
+LATEST_TAG=$(git tag -l "v*.*.*" --sort=-v:refname | head -n 1)
+CURRENT_VERSION=${LATEST_TAG#v}
+MAJOR=$(echo "$CURRENT_VERSION" | cut -d. -f1)
+MINOR=$(echo "$CURRENT_VERSION" | cut -d. -f2)
+PATCH=$(echo "$CURRENT_VERSION" | cut -d. -f3)
+
+# Bump the corresponding version part
+case $PART in
+major)
+  MAJOR=$((MAJOR + 1))
+  MINOR=0
+  PATCH=0
+  ;;
+minor)
+  MINOR=$((MINOR + 1))
+  PATCH=0
+  ;;
+patch)
+  PATCH=$((PATCH + 1))
+  ;;
+*)
+  echo "Unknown part '$PART'. Use 'major', 'minor', or 'patch'."
+  exit 1
+  ;;
+esac
+
+# Apply and push the new tags
+MAJOR_TAG="v$MAJOR"
+NEW_TAG="$MAJOR_TAG.$MINOR.$PATCH"
+git tag --force --message="" --sign "$MAJOR_TAG"
+git tag --message="" --sign "$NEW_TAG"
+git push --force origin "$NEW_TAG" "$MAJOR_TAG"
+
+echo "Version bumped to '$NEW_TAG'"

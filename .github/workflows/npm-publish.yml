@@ -17,17 +17,15 @@ on:
 
 jobs:
   publish-to-npm:
-    runs-on: ubuntu-latest
     permissions:
       contents: read
       id-token: write
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/checkout@v4
         with:
           fetch-depth: ${{ inputs.fetch-depth }}
-      - uses: hemilabs/actions/setup-node-env@main
-      - run: npm run --if-present prepublishOnly
-      - uses: JS-DevTools/npm-publish@9ff4ebfbe48473265867fb9608c047e7995edfa3 # v3.1.1
+      - uses: hemilabs/actions/publish-to-npm@v1
         with:
-          provenance: true
+          provenance: "true"
           token: ${{ secrets.NPM_TOKEN }}
