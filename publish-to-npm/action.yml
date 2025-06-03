@@ -20,7 +20,7 @@ inputs:
 runs:
   using: composite
   steps:
-    - uses: hemilabs/actions/setup-node-env@v1
+    - uses: hemilabs/actions/setup-node-env@ab27f584f6d995309f1102726b791a1fa326e6a9 # PR#22
     - run: npm run --if-present prepublishOnly
       shell: bash
     - uses: JS-DevTools/npm-publish@19c28f1ef146469e409470805ea4279d47c3d35c # v3.1.1 (not audited by us)
