@@ -10,13 +10,13 @@ This composite GitHub Action checks if the current branch is part of an allowed 
 
 ## Inputs
 
-| Input Name        | Description                                                   | Required | Example                        |
-|-------------------|---------------------------------------------------------------|----------|---------------------------------|
-| `allowed-branches`| Space-separated list of allowed branch names                  | ✅        | `api-staging cronjob-staging`  |
-| `pr-base-branch`  | The base branch to merge into                                 | ✅        | `main`                         |
-| `pr-title`        | Title of the Pull Request                                     | ✅        | `Automated PR: Update main`    |
-| `pr-body`         | Body content of the Pull Request                              | ✅        | `This is an automated PR.`     |
-| `reviewers`       | Comma-separated list of GitHub usernames for review requests  | ✅        | `user1,user2`                  |
+| Input Name         | Description                                                  | Required | Example                       |
+| ------------------ | ------------------------------------------------------------ | -------- | ----------------------------- |
+| `allowed-branches` | Space-separated list of allowed branch names                 | ✅       | `api-staging cronjob-staging` |
+| `pr-base-branch`   | The base branch to merge into                                | ✅       | `main`                        |
+| `pr-title`         | Title of the Pull Request                                    | ✅       | `Automated PR: Update main`   |
+| `pr-body`          | Body content of the Pull Request                             | ✅       | `This is an automated PR.`    |
+| `reviewers`        | Comma-separated list of GitHub usernames for review requests | ✅       | `user1,user2`                 |
 
 ## Usage Example
 
@@ -33,6 +33,7 @@ jobs:
         with:
           allowed-branches: "token-prices-staging token-prices-cron-staging"
           pr-base-branch: "main"
-          pr-title: "Merge $BRANCH_NAME into main" 
+          pr-title: "Merge $BRANCH_NAME into main"
           pr-body: "*An automated PR* — contact DevOps if needed"
           reviewers: "dhidalgX,gabmontes,gndelia"
+```
