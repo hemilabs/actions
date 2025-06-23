@@ -9,6 +9,10 @@ author: Gabriel Montes
 description: Sets up Node, runs the prepublishOnly script and publishes the package to the NPM registry
 
 inputs:
+  access:
+    description: Determines whether the published package should be publicly visible or restricted
+    required: false
+    default: public
   token:
     description: The NPM access token to use when publishing
     required: true
@@ -25,6 +29,7 @@ runs:
       shell: bash
     - uses: JS-DevTools/npm-publish@19c28f1ef146469e409470805ea4279d47c3d35c # v3.1.1 (not audited by us)
       with:
+        access: ${{ inputs.access }}
         provenance: ${{ inputs.provenance }}
         token: ${{ inputs.token }}
 
