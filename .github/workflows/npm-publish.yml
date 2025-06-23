@@ -25,7 +25,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: ${{ inputs.fetch-depth }}
-      - uses: hemilabs/actions/publish-to-npm@v1
+      - uses: hemilabs/actions/publish-to-npm@b471cbde41d4cb795b7840eb8608b95168970de1 # PR#22
         with:
           provenance: "true"
           token: ${{ secrets.NPM_TOKEN }}
