@@ -55,8 +55,8 @@ Consistency also helps reduce unnecessary diff noise during reviews.
 ## 4. Workflows
 
 - Repository-specific workflows: `.github/workflows/`
-- Workflow templates for reuse: `.github/workflow-templates/`
-- Reusable workflows: `hemilabs/actions/.github/workflows/`
+- Workflow templates for reuse: `workflow-templates/`
+- Reusable workflows should be added to the https://github.com/hemilabs/actions/ repository.
 
 Refer to [Reusable actions and workflows](#1-reusable-actions-and-workflows) for reusable workflows.
 
@@ -134,6 +134,9 @@ Step keys should be ordered as:
 
 Ordering keys consistently improves readability and reduces unnecessary diffs during reviews.
 
+https://docs.github.com/en/actions/writing-workflows/workflow-syntax-for-github-actions
+https://docs.github.com/en/actions/sharing-automations/creating-actions/metadata-syntax-for-github-actions
+
 ```yaml
 - name: "Checkout repository"
   uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
@@ -157,7 +160,7 @@ Ordering keys consistently improves readability and reduces unnecessary diffs du
 ## 5. Actions
 
 - Repository-specific actions: `.github/actions/`
-- Reusable actions: `hemilabs/actions/`
+- Reusable actions should be added to the https://github.com/hemilabs/actions/ repository.
 
 Refer to [Reusable actions and workflows](#1-reusable-actions-and-workflows) for reusable actions.
 
