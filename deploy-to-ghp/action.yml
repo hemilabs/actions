@@ -1,0 +1,35 @@
+name: Deploy to GitHub Pages
+
+author: Gabriel Montes
+
+description: Deploy a directory to GitHub Pages
+
+inputs:
+  artifact-name:
+    description: Base name for the artifact
+    default: github-pages
+  publish-dir:
+    description: Directory to publish
+    default: public
+
+outputs:
+  page_url:
+    description: The URL of the deployed page
+    value: ${{ steps.deployment.outputs.page_url }}
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/configure-pages@v5
+    - uses: actions/upload-pages-artifact@v3
+      with:
+        name: ${{ inputs.artifact-name }}-${{ github.run_id }}
+        path: ${{ inputs.publish-dir }}
+    - id: deployment
+      uses: actions/deploy-pages@v4
+      with:
+        artifact_name: ${{ inputs.artifact-name }}-${{ github.run_id }}
+
+branding:
+  color: orange
+  icon: book-open
