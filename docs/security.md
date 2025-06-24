@@ -60,14 +60,33 @@ permissions:
   dependencies should be reviewed (usually possible by viewing the `action.yml` file within the action repository) and
   ensured that all transitive dependencies are pinned to commit hashes.
 
-- **Pin actions to commit hashes** - Third-party actions **must be pinned to commit hashes** to avoid unexpected
-  changes. Only commit hashes for released tags should be used, and a comment should be added to the end of the line to
-  document the release that is in use. **Never pin to `latest`, branches or tags.** The only exception to this rule is
-  actions within `hemilabs/actions`, which should be pinned to a `vX.X` or `vX.X.X` tag.
+- **Pin actions to commit hashes** - Third-party actions, except those explicitly excluded
+  in [1.3.1](#131-excluded-actions), **must be pinned to SHA1 commit hashes** to ensure immutability. Only commit
+  hashes for released tags should be used, and a comment should be added to the end of the line to document the release
+  that is in use. **Never pin to `latest`, branches or tags.**
+
+Example usage:
 
 ```yaml
-- uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+# Actions maintained by Hemi Labs may be pinned to tags.
+- uses: hemilabs/actions/setup-node-env@v1
+
+# Actions explicitly excluded in 1.3.1 may be pinned to tags.
+- uses: actions/checkout@v4
+
+# Third-party actions must be pinned to commit hashes, with a comment containing the tag.
+- uses: JS-DevTools/npm-publish@19c28f1ef146469e409470805ea4279d47c3d35c # v3.1.1
 ```
+
+### 1.3.1. Excluded Actions
+
+All third-party actions (those not maintained exclusively by Hemi Labs, Inc.), must be pinned to commit hashes, unless
+explicitly excluded below. Excluded actions may be pinned to **tags**, and must not be pinned to branches.
+
+In sensitive environments, it is strongly recommended to pin to commit hashes in order to ensure immutability.
+
+- Actions maintained under the [`actions`](https://github.com/actions/) organisation by GitHub, Inc.
+- Actions maintained under the [`docker`](https://github.com/docker/) organisation by Docker, Inc.
 
 ---
 
@@ -172,6 +191,9 @@ run: |
 If you notice a potential security issue in an action or workflow, raise it immediately with your team lead, via
 internal security channels or by emailing [`security@hemi.xyz`](mailto:security@hemi.xyz). Quick detection and response
 help us protect from potential attacks.
+
+Please see our [Security Policy](https://github.com/hemilabs/.github/blob/main/SECURITY.md#reporting-a-vulnerability)
+for more information.
 
 ## 5. Collaboration
 
