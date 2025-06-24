@@ -21,15 +21,15 @@ These guidelines outline security best practices for GitHub Actions workflows an
 
 ## 1.1. Secrets
 
-- **Never hardcode secrets** - Always store sensitive data in GitHub Actions secrets and reference them securely within
-  workflows.
+- **Never hardcode secrets** - Always store sensitive data in GitHub Actions secrets, 1Password or another approved
+  secret provided, and reference them securely within workflows.
 
 - **Limit secret access** - Only expose secrets to the workflows that need them. When possible, avoid using global
   secrets if specific jobs do not require them. Repository-level secrets or environment secrets can be created to
   further limit access to the secrets, which can then have a lower scope.
 
 - **Mask secrets** - Ensure secrets are never logged or exposed during workflow executions. GitHub automatically masks
-  secrets, however they should still never be printed or written to files.
+  secrets stored as GitHub Actions secrets, however they should still never be printed or written to files.
 
 ## 1.2. `GITHUB_TOKEN` permissions
 
