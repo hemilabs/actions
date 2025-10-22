@@ -3,5 +3,5 @@
 # and help automate review requests.
 
 # This is the default owner for all files in this repository.
-# Core Engineering and Joshua Sing are responsible for all files in this repository.
-* @hemilabs/dev @joshuasing
+# Protocol Engineering and SecOps are responsible for all files in this repository.
+* @hemilabs/eng-protocol @hemilabs/security
