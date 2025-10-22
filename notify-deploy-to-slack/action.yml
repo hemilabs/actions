@@ -1,0 +1,49 @@
+# Copyright (c) 2024 Hemi Labs, Inc.
+# Use of this source code is governed by the MIT License,
+# which can be found in the LICENSE file.
+
+name: Notify to Slack
+
+author: Gabriel Montes
+
+description: Send a notification to Slack using incoming webhooks
+
+inputs:
+  app-name:
+    description: "The app being deployed"
+    required: true
+  environment:
+    description: "The deployment environment"
+    required: true
+  reference:
+    description: "Additional reference to add to the notification"
+    required: false
+    default: ""
+  slack-mention:
+    description: "The mention to include in the message"
+    default: <!here>
+  slack-webhook-url:
+    description: "The Slack incoming webhook URL"
+    required: true
+  status:
+    description: "The deployment status"
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - uses: slackapi/slack-github-action@v1
+      with:
+        payload: |
+          {
+            "text": ${{ toJSON(join(env.PAYLOAD_TEXT, '\n')) }}
+          }
+      env:
+        PAYLOAD_TEXT: |
+          ${{ format('{0} Deployment of {1} to {2} {3}', inputs.slack-mention, inputs.app-name, inputs.environment, inputs.status) }}
+          ${{ inputs.reference }}
+        SLACK_WEBHOOK_URL: ${{ inputs.slack-webhook-url }}
+
+branding:
+  color: blue
+  icon: bell

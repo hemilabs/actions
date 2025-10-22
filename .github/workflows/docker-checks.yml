@@ -1,0 +1,33 @@
+# Copyright (c) 2024 Hemi Labs, Inc.
+# Use of this source code is governed by the MIT License,
+# which can be found in the LICENSE file.
+
+name: Docker Checks
+
+on:
+  workflow_call:
+    inputs:
+      context:
+        description: "The build context"
+        default: "."
+        type: string
+      fetch-depth:
+        description: Number of commits to fetch. 0 indicates all history for all branches and tags.
+        default: 1
+        type: number
+
+jobs:
+  docker-checks:
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build --tag ${{ github.repository }}:${{ github.sha }} ${{ inputs.context }}
+      - uses: aquasecurity/trivy-action@0.29.0
+        with:
+          exit-code: 1
+          ignore-unfixed: true
+          image-ref: ${{ github.repository }}:${{ github.sha }}
+          severity: HIGH,CRITICAL
+          skip-dirs: /root/.npm
