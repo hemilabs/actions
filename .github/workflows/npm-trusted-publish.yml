@@ -22,7 +22,7 @@ jobs:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
         with:
           fetch-depth: ${{ inputs.fetch-depth }}
-      - uses: hemilabs/actions/setup-node-env@main
+      - uses: hemilabs/actions/setup-node-env@v1
       - run: npm run --if-present prepublishOnly
       # Provenance is enabled by default in trusted publishing
       # See https://docs.npmjs.com/trusted-publishers#supported-cicd-providers
