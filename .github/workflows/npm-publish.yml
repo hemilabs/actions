@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Hemi Labs, Inc.
+# Copyright (c) 2025 Hemi Labs, Inc.
 # Use of this source code is governed by the MIT License,
 # which can be found in the LICENSE file.
 
@@ -11,9 +11,6 @@ on:
         description: Number of commits to fetch. 0 indicates all history for all branches and tags.
         default: 1
         type: number
-    secrets:
-      NPM_TOKEN:
-        required: true
 
 jobs:
   publish-to-npm:
@@ -22,12 +19,11 @@ jobs:
       contents: read
       id-token: write
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
         with:
           fetch-depth: ${{ inputs.fetch-depth }}
-      - uses: hemilabs/actions/setup-node-env@main
+      - uses: hemilabs/actions/setup-node-env@v2
       - run: npm run --if-present prepublishOnly
-      - uses: JS-DevTools/npm-publish@9ff4ebfbe48473265867fb9608c047e7995edfa3 # v3.1.1
-        with:
-          provenance: true
-          token: ${{ secrets.NPM_TOKEN }}
+      # Provenance is enabled by default in trusted publishing
+      # See https://docs.npmjs.com/trusted-publishers#supported-cicd-providers
+      - run: npm publish
