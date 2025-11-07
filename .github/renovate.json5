@@ -1,0 +1,4 @@
+{
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  extends: ["local>hemilabs/actions:renovate.json5"],
+}
