@@ -9,17 +9,17 @@
 # review coverage and accountability.
 #
 # Additionally, for security purposes, all changes require a sign-off from a
-# member of the @hemilabs/devops or @hemilabs/secops teams.
+# member of the @hemilabs/infra or @hemilabs/security teams.
 #
 
 # This is the default owner for all files in this repository.
-* @hemilabs/devops
+* @hemilabs/infra @hemilabs/security
 
 # Documentation
-/docs/guidelines.md  @hemilabs/app-devs @hemilabs/dev @hemilabs/devops
-/docs/security.md    @hemilabs/secops
+/docs/guidelines.md  @hemilabs/eng-apps @hemilabs/eng-protocol @hemilabs/infra
+/docs/security.md    @hemilabs/security
 
 # Application Engineering
-/.github/workflows/js-checks.yml    @hemilabs/app-devs
-/.github/workflows/npm-publish.yml  @hemilabs/app-devs
-/setup-node-env/                    @hemilabs/app-devs
+/.github/workflows/js-checks.yml    @hemilabs/eng-apps
+/.github/workflows/npm-publish.yml  @hemilabs/eng-apps
+/setup-node-env/                    @hemilabs/eng-apps
