@@ -1,7 +1,25 @@
+#
 # This file exists to designate certain reviewers for certain areas of the
 # repository. This allows us to enhance security measures, streamline reviews
 # and help automate review requests.
+#
+# Each team should be responsible for maintaining the workflows or actions they
+# contribute to this repository. When contributing workflows or actions, add
+# your team as a code owner, unless agreed upon. This helps ensure appropriate
+# review coverage and accountability.
+#
+# Additionally, for security purposes, all changes require a sign-off from a
+# member of the @hemilabs/infra or @hemilabs/security teams.
+#
 
 # This is the default owner for all files in this repository.
-# Protocol Engineering and SecOps are responsible for all files in this repository.
-* @hemilabs/eng-protocol @hemilabs/security
+* @hemilabs/infra @hemilabs/security
+
+# Documentation
+/docs/guidelines.md  @hemilabs/eng-apps @hemilabs/eng-protocol @hemilabs/infra
+/docs/security.md    @hemilabs/security
+
+# Application Engineering
+/.github/workflows/js-checks.yml    @hemilabs/eng-apps
+/.github/workflows/npm-publish.yml  @hemilabs/eng-apps
+/setup-node-env/                    @hemilabs/eng-apps
