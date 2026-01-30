@@ -2,6 +2,12 @@
 # Use of this source code is governed by the MIT License,
 # which can be found in the LICENSE file.
 
+# NOTICE: This reusable workflow has moved to hemilabs/.github!
+# Reusable workflows in hemilabs/actions will be removed in the v3.0.0 tag.
+#
+# Please update uses of this workflow to use the new workflow in hemilabs/.github
+# New workflow: https://github.com/hemilabs/.github/blob/main/.github/workflows/docker.yml
+
 name: "Docker"
 on:
   workflow_call:
