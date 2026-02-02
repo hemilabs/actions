@@ -1,0 +1,26 @@
+{
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  extends: [
+    "local>hemilabs/.github:renovate-config.json5",
+    ":assignAndReview(joshuasing)",
+  ],
+  commitMessagePrefix: "all:",
+  commitMessageAction: "update",
+  commitMessageTopic: "{{depName}}",
+  packageRules: [
+    {
+      matchDatasources: ["docker"],
+      commitMessageTopic: "image {{depName}}",
+    },
+    {
+      description: "Enable auto-merge on pull requests",
+      matchPackageNames: ["*"],
+      automerge: true,
+      automergeType: "pr",
+    },
+    {
+      matchUpdateTypes: ["pin", "pinDigest"],
+      commitMessageAction: "pin",
+    },
+  ],
+}
