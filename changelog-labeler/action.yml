@@ -1,0 +1,106 @@
+# Copyright (c) 2025-2026 Hemi Labs, Inc.
+# Use of this source code is governed by the MIT License,
+# which can be found in the LICENSE file.
+
+name: "Changelog Labeler"
+description: "Automatically manage changelog labels on pull requests. Adds a required label when the changelog hasn't been updated, and switches to done when it has."
+
+inputs:
+  changelog-path:
+    description: "Path to changelog file (relative to repo root)"
+    default: "CHANGELOG.md"
+  label-required:
+    description: "Label when changelog needs updating"
+    default: "changelog: required"
+  label-skip:
+    description: "Label to skip changelog requirement"
+    default: "changelog: skip"
+  label-done:
+    description: "Label when changelog is updated"
+    default: "changelog: done"
+  required:
+    description: "Fail if changelog not updated"
+    default: "true"
+
+outputs:
+  changed:
+    description: "Whether the changelog was modified"
+    value: "${{ steps.changelog-check.outputs.changed }}"
+  required:
+    description: "Whether a changelog update is still required"
+    value: "${{ steps.changelog.outputs.required }}"
+
+runs:
+  using: composite
+  steps:
+    - name: "Check if changelog has been updated"
+      id: "changelog-check"
+      shell: bash
+      env:
+        GH_TOKEN: "${{ github.token }}"
+        GH_REPO: "${{ github.repository }}"
+        PR_NUMBER: "${{ github.event.pull_request.number }}"
+        CHANGELOG_PATH: "${{ inputs.changelog-path }}"
+      run: |
+        set -euo pipefail
+        CL_CHANGED=false
+        files=$(gh api --paginate "repos/$GH_REPO/pulls/$PR_NUMBER/files?per_page=100" --jq '.[].filename')
+        if echo "$files" | grep -Fxq -- "$CHANGELOG_PATH"; then
+          CL_CHANGED=true
+        fi
+        echo "changed=$CL_CHANGED" >> "$GITHUB_OUTPUT"
+
+    - name: "Manage changelog labels"
+      id: "changelog"
+      shell: bash
+      env:
+        GH_TOKEN: "${{ github.token }}"
+        GH_REPO: "${{ github.repository }}"
+        PR_NUMBER: "${{ github.event.pull_request.number }}"
+        CL_CHANGED: "${{ steps.changelog-check.outputs.changed }}"
+        LABEL_REQUIRED: "${{ inputs.label-required }}"
+        LABEL_SKIP: "${{ inputs.label-skip }}"
+        LABEL_DONE: "${{ inputs.label-done }}"
+      run: |
+        set -euo pipefail
+        labels=$(gh api "repos/$GH_REPO/pulls/$PR_NUMBER" --jq '.labels[].name')
+        REQUIRED=false
+
+        edit_label() {
+          action="$1"
+          label="$2"
+
+          if [ "$action" = "add" ]; then
+            gh api -X POST "repos/$GH_REPO/issues/$PR_NUMBER/labels" \
+              -F "labels[]=$(printf '%s' "$label")" >/dev/null
+          elif [ "$action" = "remove" ]; then
+            encoded_label=$(printf "%s" "$label" | jq -s -R -r @uri)
+            gh api -X DELETE "repos/$GH_REPO/issues/$PR_NUMBER/labels/$encoded_label" >/dev/null 2>&1 || true
+          else
+            echo "unknown action: $action"
+            exit 1
+          fi
+        }
+
+        if [ "$CL_CHANGED" = "true" ]; then
+          edit_label remove "$LABEL_REQUIRED"
+          edit_label add "$LABEL_DONE"
+        elif echo "$labels" | grep -Fxq -- "$LABEL_SKIP"; then
+          edit_label remove "$LABEL_REQUIRED"
+        else
+          edit_label add "$LABEL_REQUIRED"
+          edit_label remove "$LABEL_DONE"
+          REQUIRED=true
+        fi
+
+        echo "required=$REQUIRED" >> "$GITHUB_OUTPUT"
+
+    - name: "Fail if changelog has not been updated"
+      if: inputs.required == 'true' && steps.changelog.outputs.required == 'true'
+      shell: bash
+      env:
+        LABEL_SKIP: "${{ inputs.label-skip }}"
+        LABEL_DONE: "${{ inputs.label-done }}"
+      run: |
+        printf '❌ This pull request must be labeled "%s" or "%s" before merging.\n' "$LABEL_DONE" "$LABEL_SKIP"
+        exit 1
