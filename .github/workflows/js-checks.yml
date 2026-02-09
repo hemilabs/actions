@@ -24,7 +24,7 @@ on:
 
 jobs:
   run-checks:
-    uses: hemilabs/.github/.github/workflows/js-checks.yml@e7891934f1d7169d9d4615f427d1e1a9386a8890 # v1.0.0
+    uses: hemilabs/.github/.github/workflows/js-checks.yml@e67ebd8cbd2494bbdd6d674bed564e478b4d699e # v1.1.0
     permissions:
       contents: read
     with:
