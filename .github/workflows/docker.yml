@@ -53,7 +53,7 @@ on:
 
 jobs:
   docker:
-    uses: hemilabs/.github/.github/workflows/docker.yml@e7891934f1d7169d9d4615f427d1e1a9386a8890 # v1.0.0
+    uses: hemilabs/.github/.github/workflows/docker.yml@c0d930f1959633dd7dc1203d95ec6634dbaf9a34 # v1.2.0
     permissions:
       contents: read
       packages: write # Needed to push to GitHub Container Registry
