@@ -19,7 +19,7 @@ permissions:
 
 env:
   # renovate: datasource=github-releases depName=pnpm/pnpm versioning=semver
-  PNPM_VERSION: "11.8.0"
+  PNPM_VERSION: "12.4.2"
 
 jobs:
   prettier:
